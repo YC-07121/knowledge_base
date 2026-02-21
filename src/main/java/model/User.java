@@ -3,7 +3,7 @@ package model;
 import java.io.Serializable;
 
 public class User implements Serializable {
-    private int userID;
+    private int id;
     private String name;
     private String password;
 
@@ -16,12 +16,12 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public int getUserID() {
-        return userID;
+    public int getId() {
+        return id;
     }
 
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

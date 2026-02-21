@@ -1,4 +1,4 @@
-package dao.Category;
+package dao.category;
 
 import java.util.List;
 
@@ -9,6 +9,8 @@ public interface CategoryDao {
     List<Category> findByUserId(int userId);
 
     int insert(Category cat);
+
+    void update(int id, Category cat);
 
     void delete(int id);
 }

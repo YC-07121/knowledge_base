@@ -18,7 +18,8 @@ import javax.swing.border.EmptyBorder;
 
 import controller.MainUI;
 import model.User;
-import service.impl.UserServiceImpl;
+import service.user.UserServiceImpl;
+import service.user.UserService;
 import util.Tool;
 
 public class AccountUI extends JFrame {
@@ -131,7 +132,7 @@ public class AccountUI extends JFrame {
                 user.setName(newName);
                 user.setPassword(newPwd);
 
-                UserServiceImpl userService = new UserServiceImpl();
+                UserService userService = new UserServiceImpl();
                 if (userService.update(user)) {
                     Tool.saveUser(user); // Save to file
                     JOptionPane.showMessageDialog(null, "資料更新成功");
@@ -163,7 +164,7 @@ public class AccountUI extends JFrame {
                         JOptionPane.WARNING_MESSAGE);
 
                 if (confirm == JOptionPane.YES_OPTION) {
-                    new UserServiceImpl().delete_by_id(user.getUserID());
+                    new UserServiceImpl().delete_by_id(user.getId());
                     // Should also clear local user file or just overwrite on next login
                     // Redirect to Login
                     JOptionPane.showMessageDialog(null, "帳號已刪除");

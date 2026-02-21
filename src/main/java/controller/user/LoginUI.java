@@ -18,7 +18,7 @@ import javax.swing.border.EmptyBorder;
 
 import controller.MainUI;
 import model.User;
-import service.impl.UserServiceImpl;
+import service.user.UserServiceImpl;
 import util.Tool;
 
 public class LoginUI extends JFrame {
@@ -58,7 +58,7 @@ public class LoginUI extends JFrame {
 		contentPane.setLayout(null);
 
 		// Title
-		JLabel lblTitle = new JLabel("記帳系統登入");
+		JLabel lblTitle = new JLabel("個人知識庫系統登入");
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setFont(new Font("微軟正黑體", Font.BOLD, 24));
 		lblTitle.setBounds(0, 30, 434, 40);

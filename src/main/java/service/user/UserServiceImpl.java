@@ -1,11 +1,11 @@
-package service.impl;
+package service.user;
 
 import java.util.List;
 
-import dao.UserDao;
-import dao.impl.UserDaoImpl;
+import dao.user.UserDao;
+import dao.user.UserDaoImpl;
 import model.User;
-import service.UserService;
+import service.user.UserService;
 
 public class UserServiceImpl implements UserService {
     UserDao userDao = new UserDaoImpl();
@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
         if (list.size() > 0) {
             // If name exists, check if it belongs to the same user (ID check)
             User existing = list.get(0);
-            if (existing.getUserID() != user.getUserID()) {
+            if (existing.getId() != user.getId()) {
                 return false; // Name taken by another user
             }
         }

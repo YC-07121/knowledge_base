@@ -1,4 +1,4 @@
-package dao.impl;
+package dao.user;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import dao.UserDao;
 import model.User;
 import util.Tool;
 
@@ -35,7 +34,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> select_by_id(int userID) {
-        String sql = "SELECT * FROM user WHERE user_id = ?";
+        String sql = "SELECT * FROM user WHERE id = ?";
         List<User> users = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
@@ -44,7 +43,7 @@ public class UserDaoImpl implements UserDao {
 
             while (resultSet.next()) {
                 User user = new User();
-                user.setUserID(resultSet.getInt("user_id"));
+                user.setId(resultSet.getInt("id"));
                 user.setName(resultSet.getString("name"));
                 user.setPassword(resultSet.getString("password"));
                 users.add(user);
@@ -68,7 +67,7 @@ public class UserDaoImpl implements UserDao {
 
             while (resultSet.next()) {
                 User user = new User();
-                user.setUserID(resultSet.getInt("user_id"));
+                user.setId(resultSet.getInt("id"));
                 user.setName(resultSet.getString("name"));
                 user.setPassword(resultSet.getString("password"));
                 users.add(user);
@@ -92,7 +91,7 @@ public class UserDaoImpl implements UserDao {
 
             while (resultSet.next()) {
                 User user = new User();
-                user.setUserID(resultSet.getInt("user_id"));
+                user.setId(resultSet.getInt("id"));
                 user.setName(resultSet.getString("name"));
                 user.setPassword(resultSet.getString("password"));
                 users.add(user);
@@ -107,12 +106,12 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void update(User user) {
-        String sql = "UPDATE user SET name = ?, password = ? WHERE user_id = ?";
+        String sql = "UPDATE user SET name = ?, password = ? WHERE id = ?";
         try {
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, user.getName());
             preparedStatement.setString(2, user.getPassword());
-            preparedStatement.setInt(3, user.getUserID());
+            preparedStatement.setInt(3, user.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -121,7 +120,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void delete_by_id(int userID) {
-        String sql = "DELETE FROM user WHERE user_id = ?";
+        String sql = "DELETE FROM user WHERE id = ?";
         try {
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setInt(1, userID);
