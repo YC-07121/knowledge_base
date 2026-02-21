@@ -4,6 +4,11 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+
+import model.Category;
+import model.Note;
+import model.User;
+
 import java.util.List;
 
 public class MainUI extends JFrame {
@@ -66,7 +71,7 @@ public class MainUI extends JFrame {
         initTreeListener();
 
         // 6. 載入資料 (暫時先載入測試資料)
-        loadMockData();
+//        loadMockData();
     }
 
     private void initTreeListener() {

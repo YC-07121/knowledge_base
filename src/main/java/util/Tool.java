@@ -21,7 +21,7 @@ public class Tool {
 
     public static Connection ConnectDB() {
 
-        String url = "jdbc:mysql://localhost:3306/hw2";
+        String url = "jdbc:mysql://localhost:3306/knowledge_base";
         String user = "root";
         String password = "1234";
         Connection conn = null;
