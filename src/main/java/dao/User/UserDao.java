@@ -8,7 +8,7 @@ public interface UserDao {
 
     void add_user(String name, String password);
 
-    List<User> select_by_id(int userID);
+    List<User> select_by_id(int id);
 
     List<User> select_by_name_and_password(String name, String password);
 
@@ -16,6 +16,6 @@ public interface UserDao {
 
     void update(User user);
 
-    void delete_by_id(int userID);
+    void delete_by_id(int id);
 
 }
