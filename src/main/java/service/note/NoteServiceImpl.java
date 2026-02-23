@@ -11,13 +11,12 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public Note getNoteDetail(int noteId) {
-        // 只有點擊時才去抓取完整的 Content (LONGTEXT)
+        // 只有點擊時才去抓取完整的 Content
         return noteDao.getDetail(noteId);
     }
 
     @Override
     public void saveNoteContent(int noteId, String content) {
-        // 這裡可以加入一些預處理邏輯，例如過濾敏感詞
         noteDao.updateContent(noteId, content);
     }
 
@@ -26,7 +25,7 @@ public class NoteServiceImpl implements NoteService {
         Note note = new Note();
         note.setCategoryId(categoryId);
         note.setTitle(title);
-        note.setContent(""); // 預設內文為空
+        note.setContent("");
         note.setUserId(userId);
 
         int id = noteDao.insert(note);

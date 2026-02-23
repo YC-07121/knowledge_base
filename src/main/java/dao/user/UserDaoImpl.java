@@ -13,8 +13,7 @@ import util.Tool;
 public class UserDaoImpl implements UserDao {
 
     public static void main(String[] args) {
-        UserDaoImpl userDaoImpl = new UserDaoImpl();
-        System.out.println(userDaoImpl.select_by_name_and_password("test", "test"));
+
     }
 
     Connection conn = Tool.ConnectDB();

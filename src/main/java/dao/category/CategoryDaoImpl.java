@@ -14,7 +14,6 @@ public class CategoryDaoImpl implements CategoryDao {
     @Override
     public List<Category> findByUserId(int userId) {
         List<Category> list = new ArrayList<>();
-        // 排序建議先按 parent_id 排序，方便後續遞迴組裝
         String sql = "SELECT * FROM categories WHERE user_id = ? ORDER BY parent_id ASC, name ASC";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -95,7 +94,6 @@ public class CategoryDaoImpl implements CategoryDao {
 
     @Override
     public void delete(int id) {
-        // 注意：如果在資料庫有設定 ON DELETE CASCADE，刪除分類會自動刪除底下的筆記
         String sql = "DELETE FROM categories WHERE id = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
 

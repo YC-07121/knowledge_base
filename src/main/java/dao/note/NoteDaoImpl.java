@@ -13,7 +13,6 @@ public class NoteDaoImpl implements NoteDao {
     @Override
     public List<Note> findByUserId(int userId) {
         List<Note> list = new ArrayList<>();
-        // 為了效能，建立樹狀結構時不抓取超大的 content 欄位
         String sql = "SELECT id, category_id, title, user_id, create_time FROM notes WHERE user_id = ?";
 
         try {
@@ -39,13 +38,12 @@ public class NoteDaoImpl implements NoteDao {
     @Override
     public List<Note> searchNotes(int userId, String keyword) {
         List<Note> list = new ArrayList<>();
-        // 使用 LIKE 進行模糊搜尋，% 是萬用字元
         String sql = "SELECT id, category_id, title, user_id, create_time FROM notes WHERE user_id = ? AND content LIKE ?";
 
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, userId);
-            ps.setString(2, "%" + keyword + "%"); // 拼出 %keyword%
+            ps.setString(2, "%" + keyword + "%");
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -105,7 +103,6 @@ public class NoteDaoImpl implements NoteDao {
     @Override
     public int insert(Note note) {
         String sql = "INSERT INTO notes (category_id, title, content, user_id) VALUES (?, ?, ?, ?)";
-        // RETURN_GENERATED_KEYS 可以讓我們拿到剛新增完的 ID
         try {
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
@@ -116,7 +113,6 @@ public class NoteDaoImpl implements NoteDao {
 
             ps.executeUpdate();
 
-            // 取得自動生成的 ID
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) {
                     return rs.getInt(1);

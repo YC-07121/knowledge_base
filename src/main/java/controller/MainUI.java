@@ -55,7 +55,7 @@ public class MainUI extends JFrame {
     private JTextArea textArea;
     private JSplitPane splitPane;
     private JLabel statusLabel;
-    private Note currentNote; // 紀錄目前正在編輯的物件，以便儲存
+    private Note currentNote; // 紀錄目前正在編輯的物件
 
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
@@ -79,7 +79,7 @@ public class MainUI extends JFrame {
 
         Timer autoSaveTimer;
 
-        // 1. 初始化上方工具列
+        // 初始化工具列
         JToolBar toolBar = new JToolBar();
         JButton saveBtn = new JButton("儲存筆記");
         toolBar.add(saveBtn);
@@ -91,24 +91,23 @@ public class MainUI extends JFrame {
         JButton accountBtn = new JButton("帳戶管理");
         toolBar.add(accountBtn);
 
-        // 2. 初始化左側：JTree
+        // 初始化筆記總覽區塊
         tree = new JTree();
         refreshTree(); // 呼叫 Service 載入資料庫資料
         JScrollPane treeScrollPane = new JScrollPane(tree);
 
-        // 3. 初始化右側：JTextArea
+        // 初始化文字編輯區
         textArea = new JTextArea();
         textArea.setFont(new Font("Monospaced", Font.PLAIN, 14));
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
         JScrollPane textScrollPane = new JScrollPane(textArea);
 
-        // 4. 建立 JSplitPane
         splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, treeScrollPane, textScrollPane);
         splitPane.setDividerLocation(250);
         contentPane.add(splitPane, BorderLayout.CENTER);
 
-        // 5. 狀態列
+        // 初始化狀態列
         statusLabel = new JLabel(" 請選擇一則筆記...");
         contentPane.add(statusLabel, BorderLayout.SOUTH);
 
@@ -116,7 +115,7 @@ public class MainUI extends JFrame {
         toolBar.add(new JLabel(" 搜尋: "));
         toolBar.add(searchField);
 
-        // --- 註冊事件監聽 ---
+        // --- 事件監聽 ---
         initTreeListener();
         initPopupMenu();
 
@@ -148,12 +147,11 @@ public class MainUI extends JFrame {
         });
 
         accountBtn.addActionListener(e -> {
-            // 開啟帳戶管理視窗，並傳入目前的 user 物件
             AccountUI accountUI = new AccountUI();
             accountUI.setVisible(true);
         });
         logoutBtn.addActionListener(e -> {
-            int confirm = JOptionPane.showConfirmDialog(this, "確定要登出並回到登入畫面嗎？");
+            int confirm = JOptionPane.showConfirmDialog(this, "確定要登出並回到登入畫面嗎？", "登出", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
                 this.dispose();
                 new LoginUI().setVisible(true);
@@ -188,7 +186,7 @@ public class MainUI extends JFrame {
 
                 if (userObj instanceof Note) {
                     Note summary = (Note) userObj;
-                    // 呼叫 Service 取得完整內文 (Lazy Load)
+                    // 取得完整內文
                     currentNote = noteService.getNoteDetail(summary.getId());
                     statusLabel.setText(" 目前編輯: " + currentNote.getTitle());
                     textArea.setText(currentNote.getContent());
@@ -306,9 +304,9 @@ public class MainUI extends JFrame {
                 results.toArray(), results.get(0));
 
         if (selected != null) {
-            // 這裡可以實作讓 JTree 選中該節點的邏輯
+
             statusLabel.setText(" 搜尋跳轉: " + selected.getTitle());
-            // 載入該筆記內容
+            // 載入筆記內容
             currentNote = noteService.getNoteDetail(selected.getId());
             textArea.setText(currentNote.getContent());
         }

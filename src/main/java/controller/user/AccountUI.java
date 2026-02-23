@@ -67,10 +67,6 @@ public class AccountUI extends JFrame {
         lblTitle.setBounds(0, 20, 434, 40);
         contentPane.add(lblTitle);
 
-        // Username (Editable?) - Allow editing name?
-        // Requirement said "change password and delete account".
-        // Let's keep name editable but read-only if not requested.
-        // Usually changing username is fine.
         JLabel lblName = new JLabel("帳號:");
         lblName.setFont(new Font("微軟正黑體", Font.PLAIN, 16));
         lblName.setBounds(80, 90, 60, 25);
@@ -93,10 +89,7 @@ public class AccountUI extends JFrame {
         password.setFont(new Font("微軟正黑體", Font.PLAIN, 14));
         password.setBounds(150, 140, 180, 25);
         contentPane.add(password);
-        password.setText(user.getPassword()); // Pre-fill current password? Or leave blank?
-        // Showing password is bad practice usually, but for this simple app maybe
-        // useful for user to know what it is.
-        // Let's pre-fill.
+        password.setText(user.getPassword());
 
         // Buttons
         JButton updateBtn = new JButton("更新資料");
