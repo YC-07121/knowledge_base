@@ -205,11 +205,13 @@ public class MainUI extends JFrame {
         JPopupMenu popupMenu = new JPopupMenu();
         JMenuItem addCatItem = new JMenuItem("新增子分類");
         JMenuItem addNoteItem = new JMenuItem("新增筆記");
+        JMenuItem renameItem = new JMenuItem("重新命名");
         JMenuItem deleteItem = new JMenuItem("刪除");
 
         popupMenu.add(addCatItem);
         popupMenu.add(addNoteItem);
         popupMenu.addSeparator();
+        popupMenu.add(renameItem);
         popupMenu.add(deleteItem);
 
         tree.addMouseListener(new MouseAdapter() {
@@ -226,6 +228,7 @@ public class MainUI extends JFrame {
         // 監聽選單動作
         addCatItem.addActionListener(e -> handleAddCategory());
         addNoteItem.addActionListener(e -> handleAddNote());
+        renameItem.addActionListener(e -> handleRename());
         deleteItem.addActionListener(e -> handleDelete());
     }
 
@@ -271,6 +274,41 @@ public class MainUI extends JFrame {
             JOptionPane.showMessageDialog(this, "請先選取一個分類後再新增筆記");
         }
     }
+
+
+    private void handleRename() {
+    DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+    if (node == null || node.isRoot()) return;
+
+    Object obj = node.getUserObject();
+    String oldName = obj.toString();
+    
+
+    String newName = JOptionPane.showInputDialog(this, "請輸入新名稱:", oldName);
+
+    if (newName != null && !newName.trim().isEmpty() && !newName.equals(oldName)) {
+        if (obj instanceof Category) {
+            Category cat = (Category) obj;
+            categoryService.renameCategory(cat.getId(), newName);
+            cat.setName(newName); // 同步更新 UI 物件
+        } else if (obj instanceof Note) {
+            Note note = (Note) obj;
+            noteService.renameNote(note.getId(), newName);
+            note.setTitle(newName); // 同步更新 UI 物件
+            
+            // 如果目前正在編輯這則筆記，更新狀態列
+            if (currentNote != null && currentNote.getId() == note.getId()) {
+                statusLabel.setText(" 目前編輯: " + newName);
+            }
+        }
+        
+        // 關鍵：通知 Tree 模型該節點資料已改變，UI 會立即重繪文字
+        ((DefaultTreeModel) tree.getModel()).nodeChanged(node);
+        
+        // 或者簡單暴力直接重新讀取整棵樹
+        // refreshTree(); 
+    }
+
 
     private void handleDelete() {
         DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();

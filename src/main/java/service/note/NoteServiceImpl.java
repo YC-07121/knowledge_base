@@ -34,6 +34,12 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
+    public void renameNote(int noteId, String newTitle) {
+        // 你可以在 NoteDao 實作這個方法
+        noteDao.updateTitle(noteId, newTitle);
+    }
+
+    @Override
     public boolean deleteNote(int noteId) {
         noteDao.delete(noteId);
         return true;

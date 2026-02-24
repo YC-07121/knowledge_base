@@ -14,6 +14,9 @@ public interface NoteService {
     // 新增一則新筆記（可以預設標題）
     Note createNewNote(int categoryId, String title, int userId);
 
+    // 重新命名筆記名稱
+    void renameNote(int noteId, String newTitle);
+
     // 刪除筆記
     boolean deleteNote(int noteId);
 

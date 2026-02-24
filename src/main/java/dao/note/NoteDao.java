@@ -14,6 +14,8 @@ public interface NoteDao {
 
     void updateContent(int noteId, String content);
 
+    void updateTitle(int noteId, String newTitle);
+
     int insert(Note note);
 
     void delete(int noteId);

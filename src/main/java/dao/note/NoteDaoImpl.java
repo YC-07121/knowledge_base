@@ -100,6 +100,18 @@ public class NoteDaoImpl implements NoteDao {
         }
     }
 
+    public void rename(int noteId, String newTitle) {
+    String sql = "UPDATE notes SET title = ? WHERE id = ?";
+    try (Connection conn = DBUtils.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, newTitle);
+        ps.setInt(2, noteId);
+        ps.executeUpdate();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+}
+
     @Override
     public int insert(Note note) {
         String sql = "INSERT INTO notes (category_id, title, content, user_id) VALUES (?, ?, ?, ?)";
