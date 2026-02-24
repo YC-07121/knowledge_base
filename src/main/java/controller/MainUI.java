@@ -277,36 +277,37 @@ public class MainUI extends JFrame {
 
 
     private void handleRename() {
-    DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
-    if (node == null || node.isRoot()) return;
+    	DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+    	if (node == null || node.isRoot()) return;
 
-    Object obj = node.getUserObject();
-    String oldName = obj.toString();
+    	Object obj = node.getUserObject();
+    	String oldName = obj.toString();
     
 
-    String newName = JOptionPane.showInputDialog(this, "請輸入新名稱:", oldName);
+    	String newName = JOptionPane.showInputDialog(this, "請輸入新名稱:", oldName);
 
-    if (newName != null && !newName.trim().isEmpty() && !newName.equals(oldName)) {
-        if (obj instanceof Category) {
-            Category cat = (Category) obj;
-            categoryService.renameCategory(cat.getId(), newName);
-            cat.setName(newName); // 同步更新 UI 物件
-        } else if (obj instanceof Note) {
-            Note note = (Note) obj;
-            noteService.renameNote(note.getId(), newName);
-            note.setTitle(newName); // 同步更新 UI 物件
+    	if (newName != null && !newName.trim().isEmpty() && !newName.equals(oldName)) {
+    		if (obj instanceof Category) {
+    			Category cat = (Category) obj;
+    			categoryService.renameCategory(cat.getId(), newName);
+            	cat.setName(newName); // 同步更新 UI 物件
+    		} else if (obj instanceof Note) {
+    			Note note = (Note) obj;
+    			noteService.renameNote(note.getId(), newName);
+    			note.setTitle(newName); // 同步更新 UI 物件
             
-            // 如果目前正在編輯這則筆記，更新狀態列
-            if (currentNote != null && currentNote.getId() == note.getId()) {
-                statusLabel.setText(" 目前編輯: " + newName);
-            }
-        }
+    			// 	如果目前正在編輯這則筆記，更新狀態列
+    			if (currentNote != null && currentNote.getId() == note.getId()) {
+    				statusLabel.setText(" 目前編輯: " + newName);
+    			}
+    		}
         
-        // 關鍵：通知 Tree 模型該節點資料已改變，UI 會立即重繪文字
-        ((DefaultTreeModel) tree.getModel()).nodeChanged(node);
+    		// 關鍵：通知 Tree 模型該節點資料已改變，UI 會立即重繪文字
+    		((DefaultTreeModel) tree.getModel()).nodeChanged(node);
         
-        // 或者簡單暴力直接重新讀取整棵樹
-        // refreshTree(); 
+    		// 或者簡單暴力直接重新讀取整棵樹
+    		//         refreshTree(); 
+    	}
     }
 
 

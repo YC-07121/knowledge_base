@@ -102,7 +102,7 @@ public class NoteDaoImpl implements NoteDao {
 
     public void rename(int noteId, String newTitle) {
     String sql = "UPDATE notes SET title = ? WHERE id = ?";
-    try (Connection conn = DBUtils.getConnection();
+    try (Connection conn = Tool.ConnectDB();
          PreparedStatement ps = conn.prepareStatement(sql)) {
         ps.setString(1, newTitle);
         ps.setInt(2, noteId);
@@ -148,4 +148,10 @@ public class NoteDaoImpl implements NoteDao {
             e.printStackTrace();
         }
     }
+
+	@Override
+	public void updateTitle(int noteId, String newTitle) {
+		// TODO Auto-generated method stub
+		
+	}
 }
